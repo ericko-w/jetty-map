@@ -38,18 +38,22 @@
       { name: 'PLJ 12', lat: -2.990964, lon: 104.824875 }
     ];
 
-    const params = new URLSearchParams(location.search);
-    const jettyName = params.get('jetty');
+    // Ambil parameter dari URL
+    const params = new URLSearchParams(window.location.search);
+    const jettyParam = params.get('jetty');
+    const normalizedParam = jettyParam ? jettyParam.toLowerCase().trim() : null;
 
-    // Filter data
-    const data = jettyName
-      ? raw.filter(d =>
-          d.name.toLowerCase().trim() === jettyName.toLowerCase().trim()
-        )
+    console.log("Query string:", jettyParam);
+    console.log("Normalized:", normalizedParam);
+
+    // Filter data berdasarkan nama jetty
+    const data = normalizedParam
+      ? raw.filter(d => d.name.toLowerCase().trim() === normalizedParam)
       : raw;
 
-    const displayData = data.length > 0 ? data : raw;
+    console.log("Filtered result:", data);
 
+    const displayData = data.length > 0 ? data : raw;
     const center = displayData[0] ? [displayData[0].lat, displayData[0].lon] : [0, 0];
 
     const map = L.map('map').setView(center, 15);
