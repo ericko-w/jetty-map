@@ -15,6 +15,9 @@
       margin: 0;
       padding: 0;
     }
+    .leaflet-tooltip {
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
@@ -26,7 +29,6 @@
     crossorigin=""
   ></script>
   <script>
-    // 1) Data lengkap
     const raw = [
       { name: 'SG 1',   lat: -2.984417, lon: 104.846347 },
       { name: 'SG 2',   lat: -2.985183, lon: 104.844689 },
@@ -42,30 +44,26 @@
       { name: 'PLJ 12', lat: -2.990964, lon: 104.824875 }
     ];
 
-    // 2) Baca parameter ?jetty=SG%201
-    const params    = new URLSearchParams(location.search);
+    const params = new URLSearchParams(location.search);
     const jettyName = params.get('jetty');
 
-    // 3) Filter data jika parameter ada
     const data = jettyName
       ? raw.filter(d => d.name === jettyName)
       : raw;
 
-    // 4) Inisialisasi map, center di titik pertama (fallback)
     const center = data.length
       ? [data[0].lat, data[0].lon]
       : [raw[0].lat, raw[0].lon];
-    const map = L.map('map').setView(center, 14);
 
+    const map = L.map('map').setView(center, 15);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
       attribution: '&copy; OpenStreetMap contributors'
     }).addTo(map);
 
-    // 5) Tambahkan marker + permanent label
     data.forEach(d => {
       L.marker([d.lat, d.lon]).addTo(map)
-       .bindTooltip(d.name, { permanent: true, direction: 'right' });
+        .bindTooltip(d.name, { permanent: true, direction: 'right' });
     });
   </script>
 </body>
