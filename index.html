@@ -6,8 +6,6 @@
   <link
     rel="stylesheet"
     href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
-    integrity="sha256-sA+e2H7gFQeUsX1n5kDz9cR8R1N6pqtVGFp+3r5p0hM="
-    crossorigin=""
   />
   <style>
     html, body, #map {
@@ -23,11 +21,7 @@
 <body>
   <div id="map"></div>
 
-  <script
-    src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
-    integrity="sha256-QV6AwfL6QqCJkjEGQzjN5R5m8eG3FT5ZNd2kVc+C+gI="
-    crossorigin=""
-  ></script>
+  <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
   <script>
     const raw = [
       { name: 'SG 1',   lat: -2.984417, lon: 104.846347 },
@@ -46,7 +40,6 @@
 
     const params = new URLSearchParams(location.search);
     const jettyName = params.get('jetty');
-
     const data = jettyName
       ? raw.filter(d => d.name === jettyName)
       : raw;
@@ -57,7 +50,6 @@
 
     const map = L.map('map').setView(center, 15);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19,
       attribution: '&copy; OpenStreetMap contributors'
     }).addTo(map);
 
