@@ -38,25 +38,19 @@
       { name: 'PLJ 12', lat: -2.990964, lon: 104.824875 }
     ];
 
-    // Ambil parameter dari URL
     const params = new URLSearchParams(location.search);
     const jettyName = params.get('jetty');
 
-    // Filter dengan case-insensitive + trimming
+    // Filter data
     const data = jettyName
       ? raw.filter(d =>
           d.name.toLowerCase().trim() === jettyName.toLowerCase().trim()
         )
       : raw;
 
-    // Tampilkan alert jika tidak ditemukan
-    if (data.length === 0) {
-      alert("Jetty tidak ditemukan. Menampilkan semua titik.");
-    }
+    const displayData = data.length > 0 ? data : raw;
 
-    const center = data.length
-      ? [data[0].lat, data[0].lon]
-      : [raw[0].lat, raw[0].lon];
+    const center = displayData[0] ? [displayData[0].lat, displayData[0].lon] : [0, 0];
 
     const map = L.map('map').setView(center, 15);
 
@@ -64,8 +58,7 @@
       attribution: '&copy; OpenStreetMap contributors'
     }).addTo(map);
 
-    // Tambahkan marker dan label permanen
-    data.forEach(d => {
+    displayData.forEach(d => {
       L.marker([d.lat, d.lon]).addTo(map)
         .bindTooltip(d.name, { permanent: true, direction: 'right' });
     });
